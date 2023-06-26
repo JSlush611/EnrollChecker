@@ -39,6 +39,7 @@ const CoursesWidget = ( { userId, isProfile = false}) => {
        } else {
            getCourses();
        }
+       // eslint-disable-next-line
    }, []);
 
 

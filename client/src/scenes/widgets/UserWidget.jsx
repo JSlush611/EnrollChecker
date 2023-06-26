@@ -43,8 +43,6 @@ import {
     preferredName,
     } = user;
   
-    console.log(courseList)
-
     return (
       <WidgetWrapper>
         {/* FIRST ROW */}

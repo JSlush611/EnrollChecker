@@ -194,7 +194,7 @@ const Navbar = () => {
                   <Typography>{preferredName}</Typography>
                 </MenuItem>
                 {isAuth ? (
-                  <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
                 ) : (
                   <MenuItem component={RouterLink} to="/">Login</MenuItem>
                 )}
