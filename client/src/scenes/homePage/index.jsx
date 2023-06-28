@@ -4,14 +4,22 @@ import Navbar from "scenes/navbar";
 import UserWidget from "scenes/widgets/UserWidget";
 import Footer from "scenes/footer"
 import CoursesWidget from "scenes/widgets/CoursesWidget";
+import { useState } from "react";
+
 
 const HomePage = () => {
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
     const { _id, picturePath} = useSelector((state) => state.user);
 
+    const [searchText, setSearchText] = useState(""); // Add state for searchText
+
+    const handleSearchChange = (text) => {
+      setSearchText(text); // Update the state when searchText changes
+    };
+
     return ( 
     <Box>
-        <Navbar />
+      <Navbar onSearch={handleSearchChange} /> {/* Pass the search handler function */}
         <Box
             width="100%"
             padding="2rem 6%"
@@ -29,14 +37,25 @@ const HomePage = () => {
             flexDirection="column"
             gap="1rem">
                 
-          <CoursesWidget userId={_id} isProfile={false} />
+          <CoursesWidget userId={_id} isProfile={false} searchText={searchText}/>
             </Box>
 
             {isNonMobileScreens && <Box flexBasis="26%"></Box>}
 
         </Box>
-        <Footer />
+        <Box
+        width="100%"
+        padding="2rem 6% 8rem"
+        display={isNonMobileScreens ? "flex" : "block"}
+        gap="0.5rem"
+        justifyContent="space-between">
+        <Footer/>
+        </Box>
+        
     </Box>
+
+    
+    
     );
 }
 

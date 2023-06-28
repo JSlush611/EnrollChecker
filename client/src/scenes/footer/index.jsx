@@ -16,12 +16,14 @@ const Footer = () => {
       textAlign="center"
       backgroundColor={background}
       padding="1rem"
+      
     >
       <Box
         display="inline-block"
         backgroundColor={alt}
         borderRadius="6px"
         padding="0.35rem"
+        
       >
         <Typography variant="body2">
           Made By: Jonathan Schlueche

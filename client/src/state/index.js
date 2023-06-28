@@ -6,6 +6,7 @@ const initialState = {
     token: null,
     courses: [],
     courseList: [],
+    filteredCourses: []
 };
 
 export const authSlice = createSlice({
@@ -29,6 +30,9 @@ export const authSlice = createSlice({
         setSubscriptions: (state, action) => {
             state.courseList = action.payload.courseList;
         },
+        setFilteredCourses: (state, action) => {
+            state.filteredCourses = action.payload.courseList;
+        }
     }
 })
 

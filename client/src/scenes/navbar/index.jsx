@@ -24,9 +24,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import Logo from "./logo.png";
 import { Link as RouterLink } from "react-router-dom";
- 
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,14 +41,22 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
   const isAuth = Boolean(useSelector((state) => state.token));
 
-  const preferredName = user ? `${user.preferredName}`: "";
+  const preferredName = user ? `${user.preferredName}` : "";
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearch = (event) => {
+    const searchValue = event.target.value;
+    setSearchText(searchValue); // Update the search text
+    onSearch(searchValue); // Call the onSearch prop with the search value
+  };
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
-      <FlexBetween gap="1.75rem">
+      <FlexBetween gap="1.75rem" flex="1">
         <Typography
           fontWeight="bold"
-          fontSize="clamp(1rem, 2rem, 2.25rem)"
+          fontSize={isNonMobileScreens ? "clamp(1rem, 2rem, 2.25rem)" : "1.5rem"}
           color="primary"
           onClick={() => navigate("/home")}
           sx={{
@@ -57,29 +64,46 @@ const Navbar = () => {
               color: primaryLight,
               cursor: "pointer",
             },
-          }}>
-        <img src={Logo} alt="" style={{ marginRight: "0.25rem", verticalAlign: "middle"}} width="40" height="40" /> {/* Logo image */}
-        EnrollChecker
+          }}
+        >
+          <img
+            src={Logo}
+            alt=""
+            style={{
+              marginRight: isNonMobileScreens ? "0.25rem" : "0.1rem",
+              verticalAlign: "middle",
+            }}
+            width={isNonMobileScreens ? "150" : "120"}
+            height={isNonMobileScreens ? "90" : "80"}
+          />{" "}
+          {/* Logo image */}
         </Typography>
-        {isNonMobileScreens && (
-          <FlexBetween
-            backgroundColor={neutralLight}
-            borderRadius="9px"
-            gap="3rem"
-            padding="0.1rem 1.5rem"
-          >
-            <InputBase placeholder="Search..." />
-            <IconButton>
-              <Search />
-            </IconButton>
-          </FlexBetween>
-        )}
+        <FlexBetween
+          backgroundColor={neutralLight}
+          borderRadius="9px"
+          gap="1.5rem"
+          padding="0.1rem 1rem"
+          flex="1"
+        >
+          <InputBase
+            placeholder="Search..."
+            value={searchText}
+            onChange={handleSearch}
+            sx={{
+              fontSize: isNonMobileScreens ? "1rem" : "0.875rem",
+              width: "100%",
+            }}
+          />
+          <IconButton onClick={() => setSearchText("")}>
+            <Search sx={{ fontSize: isNonMobileScreens ? "1.5rem" : "1rem" }} />
+          </IconButton>
+        </FlexBetween>
       </FlexBetween>
 
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <IconButton onClick={() => dispatch(setMode())}>
+          <IconButton onClick={() => dispatch(setMode())} >
             {theme.palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: "25px" }} />
             ) : (
@@ -87,13 +111,20 @@ const Navbar = () => {
             )}
           </IconButton>
 
-        {/* Help button */}
-        <IconButton onClick={() => navigate(location.pathname === "/help" ? "/home" : "/help")}>
-          {theme.palette.mode === "dark" ? (<Help sx={{ fontSize: "25px", color: dark }} />) : 
-          (<Help sx={{ fontSize: "25px" }} />)}
-        </IconButton>
+          {/* Help button */}
+          <IconButton
+            onClick={() =>
+              navigate(location.pathname === "/help" ? "/home" : "/help")
+            }
+          >
+            {theme.palette.mode === "dark" ? (
+              <Help sx={{ fontSize: "25px", color: dark }} />
+            ) : (
+              <Help sx={{ fontSize: "25px" }} />
+            )}
+          </IconButton>
 
-          <FormControl variant="standard" value={preferredName}>
+          <FormControl variant="standard" value={preferredName} >
             <Select
               value={preferredName}
               sx={{
@@ -112,13 +143,17 @@ const Navbar = () => {
               input={<InputBase />}
             >
               <MenuItem value={preferredName}>
-              <Typography>{preferredName}</Typography>
+                <Typography>{preferredName}</Typography>
               </MenuItem>
               {isAuth ? (
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
-            ) : (
-              <MenuItem component={RouterLink} to="/">Login</MenuItem>
-            )}              
+                <MenuItem onClick={() => dispatch(setLogout())}>
+                  Log Out
+                </MenuItem>
+              ) : (
+                <MenuItem component={RouterLink} to="/">
+                  Login
+                </MenuItem>
+              )}
             </Select>
           </FormControl>
         </FlexBetween>
@@ -131,6 +166,7 @@ const Navbar = () => {
       )}
 
       {/* MOBILE NAV */}
+
       {!isNonMobileScreens && isMobileMenuToggled && (
         <Box
           position="fixed"
@@ -157,22 +193,30 @@ const Navbar = () => {
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            gap="3rem">
-
-          {/* Theme button */}
-          <IconButton onClick={() => dispatch(setMode())}
-            sx={{ fontSize: "25px" }}>
-            {theme.palette.mode === "dark" ? (
-            <DarkMode sx={{ fontSize: "25px" }} />) : (
-            <LightMode sx={{ color: dark, fontSize: "25px" }} />)}
+            gap="3rem"
+          >
+            {/* Theme button */}
+            <IconButton onClick={() => dispatch(setMode())} sx={{ fontSize: "25px" }}>
+              {theme.palette.mode === "dark" ? (
+                <DarkMode sx={{ fontSize: "25px" }} />
+              ) : (
+                <LightMode sx={{ color: dark, fontSize: "25px" }} />
+              )}
             </IconButton>
 
-          {/* Help button */}
-          <IconButton onClick={() => navigate(location.pathname === "/help" ? "/home" : "/help")}>
-            {theme.palette.mode === "dark" ? (<Help sx={{ fontSize: "25px", color: dark }} />) : 
-            (<Help sx={{ fontSize: "25px" }} />)}
-          </IconButton>            
-          <FormControl variant="standard" value={preferredName}>
+            {/* Help button */}
+            <IconButton
+              onClick={() =>
+                navigate(location.pathname === "/help" ? "/home" : "/help")
+              }
+            >
+              {theme.palette.mode === "dark" ? (
+                <Help sx={{ fontSize: "25px", color: dark }} />
+              ) : (
+                <Help sx={{ fontSize: "25px" }} />
+              )}
+            </IconButton>
+            <FormControl variant="standard" value={preferredName}>
               <Select
                 value={preferredName}
                 sx={{
@@ -194,9 +238,13 @@ const Navbar = () => {
                   <Typography>{preferredName}</Typography>
                 </MenuItem>
                 {isAuth ? (
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+                  <MenuItem onClick={() => dispatch(setLogout())}>
+                    Log Out
+                  </MenuItem>
                 ) : (
-                  <MenuItem component={RouterLink} to="/">Login</MenuItem>
+                  <MenuItem component={RouterLink} to="/">
+                    Login
+                  </MenuItem>
                 )}
               </Select>
             </FormControl>
