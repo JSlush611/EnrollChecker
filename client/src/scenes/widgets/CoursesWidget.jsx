@@ -44,8 +44,10 @@ const CoursesWidget = ({ userId, isProfile = false, searchText}) => {
     } else {
       getCourses();
     }
+
+    setPage(1)
     // eslint-disable-next-line
-  }, []);
+  }, [searchText]);
 
   const filteredCourses = courses.filter((course) => {
     const searchRegex = new RegExp(searchText, "i");
