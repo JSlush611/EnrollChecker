@@ -7,8 +7,8 @@ import {
 import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
-router.get("/show", getCourses);
-router.get("/subscribe/:userId/:courseId", subscribeCourse);
-router.get("/unsubscribe/:userId/:courseId", unsubscribeCouse);
+router.get("/show", verifyToken, getCourses);
+router.get("/subscribe/:userId/:courseId", verifyToken, subscribeCourse);
+router.get("/unsubscribe/:userId/:courseId", verifyToken, unsubscribeCouse);
 
 export default router;

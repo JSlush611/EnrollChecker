@@ -14,6 +14,7 @@ const CourseWidget = ({
   courseID,
   courseDesignation,
   subscribed,
+  description,
 }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
@@ -64,6 +65,8 @@ const CourseWidget = ({
         </Typography>
         <Typography variant="body1">{`Credits: ${credits}`}</Typography>
         <Typography variant="body1">{`Course Designation: ${courseDesignation}`}</Typography>
+
+        <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>{`\nDescription: ${description}`}</Typography> {/* Add the new line */}
         <Button
           variant="outlined"
           onClick={handleToggleSubscription}

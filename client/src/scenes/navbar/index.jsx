@@ -103,7 +103,9 @@ const Navbar = ({ onSearch }) => {
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <IconButton onClick={() => dispatch(setMode())} >
+          <IconButton onClick={() => dispatch(setMode())} 
+          sx={{padding:"28px"}}
+          >
             {theme.palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: "25px" }} />
             ) : (
@@ -114,11 +116,11 @@ const Navbar = ({ onSearch }) => {
           {/* Help button */}
           <IconButton
             onClick={() =>
-              navigate(location.pathname === "/help" ? "/home" : "/help")
+              navigate(location.pathname === "/" ? "/home" : "/")
             }
           >
             {theme.palette.mode === "dark" ? (
-              <Help sx={{ fontSize: "25px", color: dark }} />
+              <Help sx={{ fontSize: "25px", color: dark}} />
             ) : (
               <Help sx={{ fontSize: "25px" }} />
             )}
@@ -207,7 +209,7 @@ const Navbar = ({ onSearch }) => {
             {/* Help button */}
             <IconButton
               onClick={() =>
-                navigate(location.pathname === "/help" ? "/home" : "/help")
+                navigate(location.pathname === "/" ? "/home" : "/")
               }
             >
               {theme.palette.mode === "dark" ? (

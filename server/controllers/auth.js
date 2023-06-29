@@ -10,9 +10,9 @@ export const register = async (req, res) => {
             preferredName,
             email,
             password,
-            picturePath,
             subscriptions,
             subscribedNumber,
+            phoneNumber,
         } = req.body;
 
         const salt = await bcrypt.genSalt();
@@ -22,9 +22,9 @@ export const register = async (req, res) => {
             preferredName,
             email,
             password: passwordHash,
-            picturePath,
             subscriptions,
-            subscribedNumber,        
+            subscribedNumber, 
+            phoneNumber       
         });
         const savedUser = await newUser.save();
 

@@ -27,7 +27,11 @@ const UserSchema = new mongoose.Schema(
             type: Array,
             default: []
         },
+        phoneNumber: {
+            type: String,
+        },
         subscribedNumber: Number,
+
     },
     {timestamps: true}
 );

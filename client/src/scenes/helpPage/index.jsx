@@ -11,12 +11,12 @@ const HelpPage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const [expandedIndex, setExpandedIndex] = useState(null);
   const user = useSelector((state) => state.user);
-  const preferredName = user ? `, ${user.preferredName}` : "";
+  const preferredName = user ? `,   ${user.preferredName}` : "";
   const isAuth = Boolean(useSelector((state) => state.token));
   const notAuth = isAuth ? "" : (
   <React.Fragment>
       It looks like you aren't signed up or logged in!
-      Please <Link component={RouterLink} to="/"><b>login or create an account</b></Link>.
+      Please <Link component={RouterLink} to="/login"><b>login or create an account</b></Link>.
   </React.Fragment>
   );
 

@@ -29,6 +29,10 @@ const CourseSchema = new mongoose.Schema(
          subscribed: {
             type: Number,
             default: 0
+         },
+         description: {
+            type: String,
+            default: ""
          }
     },
     {timestamps: true}

@@ -6,46 +6,44 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  FormControl,
 } from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state";
-import Dropzone from "react-dropzone";
-import FlexBetween from "components/FlexBetween";
 
 const registerSchema = yup.object().shape({
-    preferredName: yup
-      .string()
-      .min(2, "Preferred name must be at least 2 characters")
-      .max(50, "Preferred name cannot exceed 50 characters")
-      .matches(/^[a-zA-Z]+$/, "Preferred name should only contain letters")
-      .required("Preferred name is required"),
-    email: yup.string().email("Invalid email").required("Email is required"),
-    password: yup
-      .string()
-      .min(2, "Password must be at least 2 characters")
-      .max(50, "Password cannot exceed 50 characters")
-      .required("Password is required"),
-    picturePath: yup.string(),
-  });
-  
+  preferredName: yup
+    .string()
+    .min(2, "Preferred name must be at least 2 characters")
+    .max(50, "Preferred name cannot exceed 50 characters")
+    .matches(/^[a-zA-Z]+$/, "Preferred name should only contain letters")
+    .required("Preferred name is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(2, "Password must be at least 2 characters")
+    .max(50, "Password cannot exceed 50 characters")
+    .required("Password is required"),
+  phoneNumber: yup.string(),
+});
+
 const loginSchema = yup.object().shape({
-    email: yup.string().email("Invalid email").required("Email is required"),
-    password: yup
-      .string()
-      .min(2, "Password must be at least 2 characters")
-      .max(50, "Password cannot exceed 50 characters")
-      .required("Password is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(2, "Password must be at least 2 characters")
+    .max(50, "Password cannot exceed 50 characters")
+    .required("Password is required"),
 });
 
 const initialValuesRegister = {
-    preferredName: "",
-    email: "",
-    password: "",
-    picture: "",
+  preferredName: "",
+  email: "",
+  password: "",
+  phoneNumber: "",
 };
 
 const initialValuesLogin = {
@@ -63,30 +61,21 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("picturePath", values.picture.name);
-
-    const savedUserResponse = await fetch(
-      "http://localhost:3001/auth/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
     const savedUser = await savedUserResponse.json();
 
     if (savedUser) {
-    onSubmitProps.resetForm();
-        dispatch(
-          setLogin({
-            user: savedUser.user,
-            token: savedUser.token,
-          })
-        );
+      onSubmitProps.resetForm();
+      dispatch(
+        setLogin({
+          user: savedUser.user,
+          token: savedUser.token,
+        })
+      );
       navigate("/home");
     }
   };
@@ -128,7 +117,6 @@ const Form = () => {
         handleBlur,
         handleChange,
         handleSubmit,
-        setFieldValue,
         resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
@@ -154,39 +142,6 @@ const Form = () => {
                   helperText={touched.preferredName && errors.preferredName}
                   sx={{ gridColumn: "span 2" }}
                 />
-                <Box
-                  gridColumn="span 4"
-                  border={`1px solid ${palette.neutral.medium}`}
-                  borderRadius="5px"
-                  p="1rem"
-                >
-                  <Dropzone
-                    acceptedFiles=".jpg,.jpeg,.png"
-                    multiple={false}
-                    onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
-                    }
-                  >
-                    {({ getRootProps, getInputProps }) => (
-                      <Box
-                        {...getRootProps()}
-                        border={`2px dashed ${palette.primary.main}`}
-                        p="1rem"
-                        sx={{ "&:hover": { cursor: "pointer" } }}
-                      >
-                        <input {...getInputProps()} />
-                        {!values.picture ? (
-                          <p>Add Profile Picture Here</p>
-                        ) : (
-                          <FlexBetween>
-                            <Typography>{values.picture.name}</Typography>
-                            <EditOutlinedIcon />
-                          </FlexBetween>
-                        )}
-                      </Box>
-                    )}
-                  </Dropzone>
-                </Box>
               </>
             )}
 
@@ -211,6 +166,22 @@ const Form = () => {
               helperText={touched.password && errors.password}
               sx={{ gridColumn: "span 4" }}
             />
+
+            {isRegister && (
+              <FormControl sx={{ gridColumn: "span 4" }}>
+                <TextField
+                  label="Phone Number (Optional, used for SMS notifications, otherwise will be notified via email)"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.phoneNumber}
+                  name="phoneNumber"
+                  error={
+                    Boolean(touched.phoneNumber) && Boolean(errors.phoneNumber)
+                  }
+                  helperText={touched.phoneNumber && errors.phoneNumber}
+                />
+              </FormControl>
+            )}
           </Box>
 
           {/* BUTTONS */}

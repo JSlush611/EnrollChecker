@@ -43,6 +43,8 @@ await mongoose
   }); 
   */
 
+
+/*
 const userId = '64973cad0b65aa18846a96bb';
 const courseId = '6497463c98b651f00102bfd5'
 var CurrUser;
@@ -70,9 +72,9 @@ CurrUser.save()
   CurrUser.subscriptions.forEach(subscription => {
     console.log(subscription.title); // Accessing the title property of each subscription object
   });
+*/
 
 
-/*
 const responseObj = jsonData;
 
 for (const hit of responseObj.hits) {
@@ -82,6 +84,7 @@ for (const hit of responseObj.hits) {
   const credits = hit.maximumCredits;
   const title = hit.title;
   const courseDesignation = hit.courseDesignation;
+  const description = hit.description;
 
   const newCourse = new Course({
     title,
@@ -89,7 +92,8 @@ for (const hit of responseObj.hits) {
     termCode,
     subjectCode,
     courseID,
-    courseDesignation
+    courseDesignation,
+    description
   });
 
   newCourse.save()
@@ -99,7 +103,7 @@ for (const hit of responseObj.hits) {
     .catch(error => {
       console.error('Error saving course:', error);
     });
-} */
+} 
 
 
 

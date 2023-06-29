@@ -19,6 +19,9 @@ import {
     const dark = palette.neutral.dark;
     const medium = palette.neutral.medium;
     const main = palette.neutral.main;
+    const theme = useTheme();
+    const primaryLight = theme.palette.primary.light;
+
   
     const getUser = async () => {
       const response = await fetch(`http://localhost:3001/users/${userId}`, {
@@ -69,7 +72,14 @@ import {
               <Typography color={medium}>{courseList.length} courses subscribed.</Typography>
             </Box>
           </FlexBetween>
-          <ManageAccountsOutlined />
+          <ManageAccountsOutlined 
+          sx={{  
+            fontSize: "35px",     
+            "&:hover": {
+              color: primaryLight,
+              cursor: "pointer",}
+            }}
+          ></ManageAccountsOutlined>
         </FlexBetween>
   
         <Divider />

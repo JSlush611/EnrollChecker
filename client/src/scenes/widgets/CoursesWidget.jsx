@@ -6,7 +6,7 @@ import { IconButton, Box, Typography, Button, TextField } from "@mui/material";
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-const CoursesWidget = ({ userId, isProfile = false, searchText }) => {
+const CoursesWidget = ({ userId, isProfile = false, searchText}) => {
   const dispatch = useDispatch();
   const courses = useSelector((state) => state.courses);
   const token = useSelector((state) => state.token);
@@ -91,6 +91,7 @@ const CoursesWidget = ({ userId, isProfile = false, searchText }) => {
           courseID,
           courseDesignation,
           subscribed,
+          description,
         }) => (
           <CourseWidget
             key={_id}
@@ -102,6 +103,7 @@ const CoursesWidget = ({ userId, isProfile = false, searchText }) => {
             courseID={courseID}
             courseDesignation={courseDesignation}
             subscribed={subscribed}
+            description={description}
           />
         )
       )}

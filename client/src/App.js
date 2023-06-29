@@ -23,13 +23,13 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path="/" 
-            element={isAuth ? <HomePage/> : <LoginPage />} />
+            element={<HelpPage/>} />
             <Route path="/home" 
             element={isAuth ? <HomePage /> : <Navigate to = "/" replace/>} />
             <Route path="/profile/:userId" 
             element={isAuth ? <UserPage/> : <Navigate to = "/"/>} />
-            <Route path="/help"
-            element={<HelpPage/>} />
+            <Route path="/login"
+            element={isAuth ? <HomePage/> : <LoginPage/>} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
