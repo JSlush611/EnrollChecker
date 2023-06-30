@@ -38,6 +38,7 @@ const CourseSchema = new mongoose.Schema(
     {timestamps: true}
 );
 
+
 const collection = "Course-Storage";
 const Course = mongoose.model("Course", CourseSchema, collection);
 export default Course;

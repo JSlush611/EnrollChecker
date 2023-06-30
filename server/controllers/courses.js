@@ -6,7 +6,7 @@ export const getCourses = async (req, res) => {
         const courses = await Course.find();
         res.status(200).json(courses);
     } catch (error) {
-        res.render("500");
+        res.status(500).json({ message: 'Internal server error.' });
     }
 };
 
@@ -17,12 +17,10 @@ export const subscribeCourse = async (req, res) => {
         const user = await User.findById(userId);
         const course = await Course.findById(courseId);
     
-        // Check if course exists
         if (!course) {
           return res.status(404).json({ message: 'Course not found.' });
         }
 
-        // Check if the user is already subscribed to the course
         if (user.subscriptions.some(subscription => subscription._id.equals(courseId))) {
             return res.status(400).json({ message: 'Your already subscribed to the course.'});
         }
@@ -37,36 +35,44 @@ export const subscribeCourse = async (req, res) => {
         res.status(200).json(courses);
 
     } catch (error) {
-        res.render("500");
+        res.status(500).json({ message: 'Internal server error.' });
     }
 };
+
 
 export const unsubscribeCouse = async (req, res) => {
     try {
-        const { userId, courseId } = req.params;
-
-        const user = await User.findById(userId);
-        const courses = user.subscriptions;
-
-
-        const updatedCourses = courses.filter((course) => course._id.toString() !== courseId);
-        user.subscriptions = updatedCourses;
-
-        await user.save();
-
-        const course = await Course.findById(courseId);
-        if (course) {
-            if (course.subscribed > 0) {
-                course.subscribed -= 1;
-            }
-            await Promise.all([user.save(), course.save()]);
-        }
-
-        const finalCourses = await user.subscriptions;  
-
-        res.status(200).json(finalCourses);
+      const { userId, courseId } = req.params;
+  
+      const user = await User.findById(userId);
+      const course = await Course.findById(courseId);
+  
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found.' });
+      }
+  
+      if (!user.subscriptions.some(subscription => subscription._id.equals(courseId))) {
+        return res.status(400).json({ message: 'You are not subscribed to the course.' });
+      }
+  
+      const updatedCourses = user.subscriptions.filter((subscription) =>
+        subscription._id.toString() !== courseId
+      );
+      user.subscriptions = updatedCourses;
+  
+      if (course.subscribed > 0) {
+        course.subscribed -= 1;
+      }
+  
+      await Promise.all([user.save(), course.save()]);
+  
+      const finalCourses = await user.subscriptions;
+  
+      res.status(200).json(finalCourses);
     } catch (error) {
-        res.render("500");
+      res.status(500).json({ message: 'Internal server error.' });
     }
-};
+  };
+  
+
 

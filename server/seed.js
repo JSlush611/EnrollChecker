@@ -25,7 +25,29 @@ await mongoose
   })
   .catch((error) => console.log(`${error} did not connect`));
 
-  /*
+
+  Course.find({ subscribed: { $gt: 0 } })
+  .sort({ subscribed: -1 }) // Sort in descending order based on subscribed count
+  .then((courses) => {
+    courses.forEach((course) => {
+      console.log(course);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  User.find({ subscribedCourses: courseID })
+  .then((users) => {
+    users.forEach((user) => {
+      console.log(user);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  /* ADD COURSE
  const newCourse = new Course({
     title: "Introduction to Computer Science",
     credits: 3,
@@ -44,7 +66,7 @@ await mongoose
   */
 
 
-/*
+/* ADD COURSE TO USER
 const userId = '64973cad0b65aa18846a96bb';
 const courseId = '6497463c98b651f00102bfd5'
 var CurrUser;
@@ -75,6 +97,7 @@ CurrUser.save()
 */
 
 
+/* COURSE SAVING
 const responseObj = jsonData;
 
 for (const hit of responseObj.hits) {
@@ -103,7 +126,7 @@ for (const hit of responseObj.hits) {
     .catch(error => {
       console.error('Error saving course:', error);
     });
-} 
+} */
 
 
 
