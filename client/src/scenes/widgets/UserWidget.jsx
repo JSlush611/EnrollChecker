@@ -12,7 +12,6 @@ import {
   
   const UserWidget = ({ userId }) => {
     const courseList = useSelector((state) => state.courseList);
-    console.log(courseList)
     const [user, setUser] = useState(null);
     const { palette } = useTheme();
     const navigate = useNavigate();
