@@ -12,6 +12,7 @@ import {
   
   const UserWidget = ({ userId }) => {
     const courseList = useSelector((state) => state.courseList);
+    console.log(courseList)
     const [user, setUser] = useState(null);
     const { palette } = useTheme();
     const navigate = useNavigate();
@@ -90,11 +91,15 @@ import {
           <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
           <Typography color={medium}>Your subscribed courses:</Typography>
         </Box>
-        {courseList.map((course) => (
-          <Typography key={course._id} color={medium}>
-            {course.title}
-    </Typography>
-  ))}
+        {courseList.length > 0 ? (
+          courseList.map((course) => (
+            <Typography key={course._id} color={medium}>
+              {course.title}
+            </Typography>
+          ))
+        ) : (
+          <Typography color={medium}></Typography>
+        )}
       </Box>
       <Divider />
       </WidgetWrapper>

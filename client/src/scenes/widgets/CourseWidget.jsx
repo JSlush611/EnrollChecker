@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState, useEffect } from "react";
 import { setSubscriptions } from "state";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const CourseWidget = ({
   courseId,
@@ -47,8 +50,12 @@ const CourseWidget = ({
   const handleToggleSubscription = async () => {
     if (isSubscribed) {
       await unsubscribeCourse();
+      toast.error("Course successfully unsubscribed", {
+        autoClose: 1200,
+      });
     } else {
       await subscribeCourse();
+      toast.success("Course successfully subscribed", { autoClose: 1200 });
     }
     setIsSubscribed(!isSubscribed); // Toggle the value
   };
@@ -73,8 +80,13 @@ const CourseWidget = ({
           sx={{ marginTop: "1rem" }}
         >
           {isSubscribed ? "Unsubscribe" : "Subscribe"}
+          
         </Button>
       </Box>
+      <ToastContainer 
+          position="bottom-right" 
+          style={{ fontSize: "20px",
+        }}/>
     </WidgetWrapper>
   );
 };

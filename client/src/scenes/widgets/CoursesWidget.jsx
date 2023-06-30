@@ -39,13 +39,16 @@ const CoursesWidget = ({ userId, isProfile = false, searchText}) => {
   };
 
   useEffect(() => {
-    if (isProfile) {
-      getUserCourses();
-    } else {
+    if (!isProfile) {
       getCourses();
+    } else if (isProfile) {
+      getUserCourses();
     }
+    // eslint-disable-next-line
+  }, []);
 
-    setPage(1)
+  useEffect(() => {
+    setPage(1);
     // eslint-disable-next-line
   }, [searchText]);
 

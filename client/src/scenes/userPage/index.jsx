@@ -23,7 +23,6 @@ const ProfilePage = () => {
   };
 
   const hasSubscribedCourses = courseList.length > 0;
-  console.log(courseList.length);
 
   useEffect(() => {
     getUser();

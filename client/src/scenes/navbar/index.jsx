@@ -40,6 +40,7 @@ const Navbar = ({ onSearch }) => {
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
   const isAuth = Boolean(useSelector((state) => state.token));
+  const isHomePage = location.pathname === "/home";
 
   const preferredName = user ? `${user.preferredName}` : "";
 
@@ -78,26 +79,28 @@ const Navbar = ({ onSearch }) => {
           />{" "}
           {/* Logo image */}
         </Typography>
-        <FlexBetween
-          backgroundColor={neutralLight}
-          borderRadius="9px"
-          gap="1.5rem"
-          padding="0.1rem 1rem"
-          flex="1"
-        >
-          <InputBase
-            placeholder="Search..."
-            value={searchText}
-            onChange={handleSearch}
-            sx={{
-              fontSize: isNonMobileScreens ? "1rem" : "0.875rem",
-              width: "100%",
-            }}
-          />
-          <IconButton onClick={() => setSearchText("")}>
-            <Search sx={{ fontSize: isNonMobileScreens ? "1.5rem" : "1rem" }} />
-          </IconButton>
-        </FlexBetween>
+        {isHomePage && (
+          <FlexBetween
+            backgroundColor={neutralLight}
+            borderRadius="9px"
+            gap="1.5rem"
+            padding="0.1rem 1rem"
+            flex="1"
+          >
+            <InputBase
+              placeholder="Search..."
+              value={searchText}
+              onChange={handleSearch}
+              sx={{
+                fontSize: isNonMobileScreens ? "1rem" : "0.875rem",
+                width: "100%",
+              }}
+            />
+            <IconButton onClick={() => setSearchText("")}>
+              <Search sx={{ fontSize: isNonMobileScreens ? "1.5rem" : "1rem" }} />
+            </IconButton>
+          </FlexBetween>
+        )}
       </FlexBetween>
 
       {/* DESKTOP NAV */}
@@ -152,7 +155,7 @@ const Navbar = ({ onSearch }) => {
                   Log Out
                 </MenuItem>
               ) : (
-                <MenuItem component={RouterLink} to="/">
+                <MenuItem component={RouterLink} to="/login">
                   Login
                 </MenuItem>
               )}

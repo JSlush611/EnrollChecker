@@ -15,6 +15,33 @@ export const register = async (req, res) => {
             phoneNumber,
         } = req.body;
 
+        if (!preferredName || !email || !password) {
+            return res.status(400).json({ error: "Missing required fields" });
+          };
+      
+        if (password.length < 2) {
+            return res
+                .status(400)
+                .json({ error: "Password should be at least 2 characters long" });
+            };
+
+        const emailRegex = /^\S+@\S+\.\S+$/;
+        if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: "Invalid email format" });
+        };
+
+        if (preferredName.length < 2 || preferredName.length > 50) {
+        return res.status(400).json({
+            error: "Preferred name should be between 2 and 50 characters long",
+        });
+        };
+
+        const phoneNumberRegex = /^\d{10}$/; // Assuming 10-digit phone number format
+        if (phoneNumber && !phoneNumberRegex.test(phoneNumber)) {
+        return res.status(400).json({ error: "Invalid phone number format" });
+        };
+
+
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
 

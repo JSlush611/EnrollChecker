@@ -94,7 +94,7 @@ const HelpPage = () => {
         </Box>
         {/* FAQ toggle spots */}
         {questions.map((faq, index) => (
-          <Box width="100%" mb={4} textAlign="center" borderRadius={8} border={1} borderColor="primary.main" overflow="hidden">
+          <Box key={index} width="100%" mb={4} textAlign="center" borderRadius={8} border={1} borderColor="primary.main" overflow="hidden">
             <Button
               variant="body1"
               onClick={() => handleToggleAnswer(index)}

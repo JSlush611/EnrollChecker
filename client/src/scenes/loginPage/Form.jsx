@@ -13,6 +13,10 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state";
+//import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const registerSchema = yup.object().shape({
   preferredName: yup
@@ -27,7 +31,8 @@ const registerSchema = yup.object().shape({
     .min(2, "Password must be at least 2 characters")
     .max(50, "Password cannot exceed 50 characters")
     .required("Password is required"),
-  phoneNumber: yup.string(),
+  phoneNumber: yup
+  .string()
 });
 
 const loginSchema = yup.object().shape({
@@ -78,6 +83,10 @@ const Form = () => {
       );
       navigate("/home");
     }
+    navigate("/login");
+    toast.error("Error registering please try again, ", {
+      autoClose: 3000,
+    });
   };
 
   const login = async (values, onSubmitProps) => {
@@ -97,6 +106,10 @@ const Form = () => {
       );
       navigate("/home");
     }
+    navigate("/login");
+    toast.error("No matching login credentials found, please try again.", {
+      autoClose: 3000,
+    });
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -171,6 +184,7 @@ const Form = () => {
               <FormControl sx={{ gridColumn: "span 4" }}>
                 <TextField
                   label="Phone Number (Optional, used for SMS notifications, otherwise will be notified via email)"
+                  type="tel"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.phoneNumber}
@@ -218,6 +232,10 @@ const Form = () => {
                 : "Already have an account? Login here."}
             </Typography>
           </Box>
+          <ToastContainer 
+          position="bottom-right" 
+          style={{ fontSize: "20px",
+        }}/>
         </form>
       )}
     </Formik>
