@@ -1,4 +1,3 @@
-import express from "express";
 import {
     getUser,
     getUserSubscriptions,
@@ -6,10 +5,10 @@ import {
 } from "../controllers/users.js";
 import { verifyToken } from "../middleware/auth.js";
 
-const router = express.Router();
+export function registerUserRoutes(router) {
+    router.get("/users/:id", verifyToken, getUser);
+    router.get("/users/:id/subscriptions", verifyToken, getUserSubscriptions);
+    router.patch("/users/:id/update", verifyToken, updateUser);
 
-router.get("/:id", verifyToken, getUser);
-router.get("/:id/subscriptions", verifyToken, getUserSubscriptions);
-router.patch("/:id/update", verifyToken, updateUser);
-
-export default router;
+    return router;
+}
