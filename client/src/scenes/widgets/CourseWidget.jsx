@@ -5,6 +5,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { setSubscriptions } from "state";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState, useEffect } from "react";
 
 const CourseWidget = ({
   courseId,
@@ -25,8 +26,13 @@ const CourseWidget = ({
   const primary = palette.primary.main;
 
   const courseList = useSelector((state) => state.courseList);
-  const isSubscribed = courseList.some((course) => course._id === courseId);
 
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  useEffect(() => {
+    const isSubscribed = courseList && courseList?.length > 0 && courseList.some((course) => course._id === courseId);
+    setIsSubscribed(isSubscribed);
+  }, [courseList, courseId])
 
   const subscribeCourse = async () => {
     const isCourseAlreadySubscribed = courseList.length > 0 && courseList.some(
@@ -42,9 +48,12 @@ const CourseWidget = ({
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      if (!response.ok) {
+        throw new Error("Failed to subscribe to the course");
+      }
       const data = await response.json();
       dispatch(setSubscriptions({ courseList: data }));
-    }
+    } 
   };
 
 
@@ -64,6 +73,11 @@ const CourseWidget = ({
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+
+    if (!response.ok) {
+      throw new Error("Failed to unsubscribe from the courses");
+    }
+    
     const data = await response.json();
     dispatch(setSubscriptions({ courseList: data }));
   };
