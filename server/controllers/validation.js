@@ -40,7 +40,6 @@ export const validateSubscription = (user, course, courseId) => {
     }
 
     if (errors.length > 0) {
-        console.log(errors)
         return { errors };
     }  
 };
@@ -64,7 +63,6 @@ export const validateUnsubscription = (user, course, courseId) => {
 export const validateUserUpdateInfo = (preferredName, phoneNumber) => {
     const errors = [];
 
-    console.log(preferredName, phoneNumber)
     if (preferredName.trim().length < 2 || preferredName.trim().length > 50) {
         errors.push("Preferred name is not valid");
     }
@@ -78,7 +76,6 @@ export const validateUserUpdateInfo = (preferredName, phoneNumber) => {
     }
 
     if (errors.length > 0) {
-        console.log(errors)
         return { errors };
     }
 };

@@ -18,11 +18,6 @@ export const getUserSubscriptions = async (req, res) => {
       const user = await User.findById(id);
       const courses = user.subscriptions;
 
-      courses.forEach((course) => {
-          console.log(course.title);
-          console.log(course.credits);
-      });
-
       res.status(200).json(courses);
   } catch (err) {
       res.status(404).json({ message: err.message });
