@@ -1,4 +1,3 @@
-import express from "express";
 import {
     getCourses,
     subscribeCourse,
@@ -6,9 +5,10 @@ import {
 } from "../controllers/courses.js"
 import { verifyToken } from "../middleware/auth.js";
 
-const router = express.Router();
-router.get("/show", verifyToken, getCourses);
-router.get("/subscribe/:userId/:courseId", verifyToken, subscribeCourse);
-router.get("/unsubscribe/:userId/:courseId", verifyToken, unsubscribeCouse);
+export function registerCourseRoutes(router) {
+    router.get("/show", verifyToken, getCourses);
+    router.get("/subscribe/:userId/:courseId", verifyToken, subscribeCourse);
+    router.get("/unsubscribe/:userId/:courseId", verifyToken, unsubscribeCouse);
 
-export default router;
+    return router;
+}
