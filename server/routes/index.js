@@ -8,4 +8,5 @@ export function registerRoutes(router) {
     registerAuthRoutes(router);
     registerUserRoutes(router);
     registerCourseRoutes(router);
+
 }

@@ -1,12 +1,13 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
+import { validateSubscription, validateUnsubscription } from "./validation.js";
 
 export const getCourses = async (req, res) => {
     try {
         const courses = await Course.find();
         res.status(200).json(courses);
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error.' });
+        res.status(500).json({ message: 'Internal server error.'});
     }
 };
 
@@ -17,12 +18,10 @@ export const subscribeCourse = async (req, res) => {
         const user = await User.findById(userId);
         const course = await Course.findById(courseId);
     
-        if (!course) {
-          return res.status(404).json({ message: 'Course not found.' });
-        }
+        const validationResult = validateSubscription(user, course, courseId);
 
-        if (user.subscriptions.some(subscription => subscription._id.equals(courseId))) {
-            return res.status(400).json({ message: 'Your already subscribed to the course.'});
+        if (validationResult) {
+            return res.status(400).json(validationResult); 
         }
 
         user.subscriptions.push(course);
@@ -35,10 +34,9 @@ export const subscribeCourse = async (req, res) => {
         res.status(200).json(courses);
 
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error.' });
+        res.status(500).json({ message: 'Internal server error.'});
     }
 };
-
 
 export const unsubscribeCouse = async (req, res) => {
     try {
@@ -47,12 +45,9 @@ export const unsubscribeCouse = async (req, res) => {
       const user = await User.findById(userId);
       const course = await Course.findById(courseId);
   
-      if (!course) {
-        return res.status(404).json({ message: 'Course not found.' });
-      }
-  
-      if (!user.subscriptions.some(subscription => subscription._id.equals(courseId))) {
-        return res.status(400).json({ message: 'You are not subscribed to the course.' });
+      const validationResult = validateUnsubscription(user, course, courseId);
+      if (validationResult) {
+        return res.status(400).json(validationResult); 
       }
   
       const updatedCourses = user.subscriptions.filter((subscription) =>

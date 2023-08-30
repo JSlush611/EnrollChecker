@@ -9,6 +9,7 @@ async function main() {
     const { app, router } = initializeApp();
 
     registerRoutes(router);
+    app.use(router);
     
     await mongoose.connect(process.env.MONGO_URL, {
         useNewUrlParser: true,

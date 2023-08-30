@@ -28,6 +28,8 @@ const UserSchema = new mongoose.Schema(
             default: []
         },
         phoneNumber: {
+            unique: true,
+            default: "",
             type: String,
         },
         subscribedNumber: Number,
