@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { emailNotificationTemplate } from './emailNotificationTemplate.js';
 
 export class EmailNotificationProvider {
     transporter = null;
@@ -18,17 +19,17 @@ export class EmailNotificationProvider {
     }
 
     /**
-     * @example `await emailNotifier.send({ user, course, numOpen, getEmailBodyHTML }})`
+     * @example `await emailNotifier.send({ user, course, numOpen }})`
      * 
      * @param {*} args 
      */
     async send(args) {
-        const { user, course, numOpen, getHtmlTemplate } = args;
+        const { user, course, numOpen } = args;
 
         await this.transporter.sendMail({
             to: user.email, 
             subject: "CLASS AVAILABLE ✔", 
-            html: getHtmlTemplate(user, course, numOpen),
+            html: emailNotificationTemplate(user, course, numOpen),
         });
     }
 }
