@@ -57,7 +57,7 @@ tasks:
       - test -f .golangci.yaml
       - which golangci-lint
     cmds:
-      - golangci-lint run {{.GOLANGCILINT_CMD_DIRS}}
+      - golangci-lint run . {{.GOLANGCILINT_CMD_DIRS}}
 
   prepare-dist-folder:
     desc: Prepares dist folder
