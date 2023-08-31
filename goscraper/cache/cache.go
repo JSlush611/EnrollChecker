@@ -1,7 +1,8 @@
 package cache
 
 type CacheItem struct {
-	Value     []byte
+	Value     string //[]byte
 	Code      int
 	UpdatedAt int64
+	CourseId  string
 }

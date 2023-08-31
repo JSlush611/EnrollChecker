@@ -41,7 +41,7 @@ func (c *Cache) Connect() {
 	}
 }
 
-func (c *Cache) Set(key string, value *CacheItem, duration time.Duration) error {
+func (c *Cache) Set(key string, value CacheItem, duration time.Duration) error {
 	if c.Client == nil {
 		return errors.New("Redis client not initialized")
 	}

@@ -5,7 +5,7 @@ dotenv: ['.env', '.env.local']
 
 vars:
   APP_VERSION_FILE: './version/version.go'
-  ENTRY_FILENAME: './main.go'
+  ENTRY_FILENAME: '.'
   BUILD_OUTPUT_DIR: './dist'
   BINARY_FILENAME: 'scraper'
   DIST_TARGET_FILE: '{{.BUILD_OUTPUT_DIR}}/{{.BINARY_FILENAME}}'
