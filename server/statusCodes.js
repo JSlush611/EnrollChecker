@@ -1,6 +1,6 @@
-export const GOOD_REQUEST = 200;
-export const CREATED = 201;
-export const BAD_REQUEST = 400; 
-export const UNAUTHORIZED = 401;
-export const NOT_FOUND = 404;
-export const SERVER_ERROR = 500;
+export const HTTP_SUCCESS = 200;
+export const HTTP_CREATED = 201;
+export const HTTP_BAD_REQUEST = 400;
+export const HTTP_UNAUTHORIZED = 401;
+export const HTTP_NOT_FOUND = 404;
+export const HTTP_SERVER_ERROR = 500;
