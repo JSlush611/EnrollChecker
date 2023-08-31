@@ -1,13 +1,14 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
 import { validateSubscription, validateUnsubscription } from "./validation.js";
+import { GOOD_REQUEST, BAD_REQUEST, SERVER_ERROR } from "../statusCodes.js";
 
 export const getCourses = async (req, res) => {
     try {
         const courses = await Course.find();
-        res.status(200).json(courses);
+        res.status(GOOD_REQUEST).json(courses);
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error.'});
+        res.status(SERVER_ERROR).json({ message: 'Internal server error.'});
     }
 };
 
@@ -21,7 +22,7 @@ export const subscribeCourse = async (req, res) => {
         const validationResult = validateSubscription(user, course, courseId);
 
         if (validationResult) {
-            return res.status(400).json(validationResult); 
+            return res.status(BAD_REQUEST).json(validationResult); 
         }
 
         user.subscriptions.push(course);
@@ -31,10 +32,10 @@ export const subscribeCourse = async (req, res) => {
 
         const courses = await user.subscriptions;
           
-        res.status(200).json(courses);
+        res.status(GOOD_REQUEST).json(courses);
 
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error.'});
+        res.status(SERVER_ERROR).json({ message: 'Internal server error.'});
     }
 };
 
@@ -47,7 +48,7 @@ export const unsubscribeCouse = async (req, res) => {
   
       const validationResult = validateUnsubscription(user, course, courseId);
       if (validationResult) {
-        return res.status(400).json(validationResult); 
+        return res.status(BAD_REQUEST).json(validationResult); 
       }
   
       const updatedCourses = user.subscriptions.filter((subscription) =>
@@ -63,9 +64,9 @@ export const unsubscribeCouse = async (req, res) => {
   
       const finalCourses = await user.subscriptions;
   
-      res.status(200).json(finalCourses);
+      res.status(GOOD_REQUEST).json(finalCourses);
     } catch (error) {
-      res.status(500).json({ message: 'Internal server error.' });
+      res.status(SERVER_ERROR).json({ message: 'Internal server error.' });
     }
   };
   

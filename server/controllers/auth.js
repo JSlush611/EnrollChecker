@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import User from "../models/User.js";
 import { validateRegistration } from "./validation.js";
-
+import { GOOD_REQUEST, CREATED, BAD_REQUEST, SERVER_ERROR } from "../statusCodes.js";
 
 export const register = async (req, res) => {
     try {
@@ -10,7 +10,7 @@ export const register = async (req, res) => {
 
         const validationResult = validateRegistration(preferredName, email, password, phoneNumber);
         if (validationResult) {
-            return res.status(400).json(validationResult); 
+            return res.status(BAD_REQUEST).json(validationResult); 
           }
 
         const salt = await bcrypt.genSalt();
@@ -29,9 +29,9 @@ export const register = async (req, res) => {
 
         const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET);
 
-        res.status(201).json({ token, user });
+        res.status(CREATED).json({ token, user });
     } catch (err) {
-        res.status(500).json({error: err.message});
+        res.status(SERVER_ERROR).json({error: err.message});
     }
 };
 
@@ -40,17 +40,17 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
 
         const user = await User.findOne({email: email});
-        if (!user) return res.status(400).json({msg: "User does not exist. "});
+        if (!user) return res.status(BAD_REQUEST).json({msg: "User does not exist. "});
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({msg: "Invalid credentials. "});
+        if (!isMatch) return res.status(BAD_REQUEST).json({msg: "Invalid credentials. "});
 
         const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET);
         delete user.password;
-        
-        res.status(200).json({ token, user });
+
+        res.status(GOOD_REQUEST).json({ token, user });
     } catch (err) {
-    res.status(500).json({error: err.message});
+    res.status(SERVER_ERROR).json({error: err.message});
     }
 };
 
