@@ -1,4 +1,3 @@
-import { NotificationProvider } from './NotificationProvider.js';
 import nodemailer from "nodemailer";
 
 export class EmailNotificationProvider {
