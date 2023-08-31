@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
-
+import { HTTP_UNAUTHORIZED } from "../statusCodes.js";
 export const verifyToken = async (req, res, next) => {
     try {
         let token = req.header("Authorization");
         if (!token) {
-            return res.status(403).send("Access Denied");
+            return res.status(HTTP_UNAUTHORIZED).send("Access Denied");
         }
 
         if (token.startsWith("Bearer ")) {
@@ -15,6 +15,6 @@ export const verifyToken = async (req, res, next) => {
         req.user = verified;
         next();
     } catch (err) {
-        res.render('403', { errorMessage: `Access Denied!` });
+        res.render(HTTP_UNAUTHORIZED, { errorMessage: `Access Denied!` });
     }
 }
