@@ -6,7 +6,7 @@ import { validateRegistration } from "./validation.js";
 
 export const register = async (req, res) => {
     try {
-        const { preferredName, email, password, subscriptions, subscribedNumber, phoneNumber } = req.body;
+        const { preferredName, email, password, subscriptions, phoneNumber } = req.body;
 
         const validationResult = validateRegistration(preferredName, email, password, phoneNumber);
         if (validationResult) {
@@ -21,15 +21,14 @@ export const register = async (req, res) => {
             email,
             password: passwordHash,
             subscriptions,
-            subscribedNumber, 
             phoneNumber       
         });
 
         const savedUser = await newUser.save();
-
         const user = await User.findOne({email: email});
 
         const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET);
+
         res.status(201).json({ token, user });
     } catch (err) {
         res.status(500).json({error: err.message});
@@ -39,6 +38,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
         const user = await User.findOne({email: email});
         if (!user) return res.status(400).json({msg: "User does not exist. "});
 
@@ -47,6 +47,7 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET);
         delete user.password;
+        
         res.status(200).json({ token, user });
     } catch (err) {
     res.status(500).json({error: err.message});

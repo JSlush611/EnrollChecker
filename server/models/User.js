@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true,
+            min: 3,
             max: 50,
             unique: true,
         },
@@ -19,24 +20,20 @@ const UserSchema = new mongoose.Schema(
             required: true,
             min: 5,
         },
-        picturePath: {
-            type: String,
-            default: "",
-        },
         subscriptions: {
             type: Array,
             default: []
         },
         phoneNumber: {
-            unique: true,
-            default: "",
             type: String,
         },
-        subscribedNumber: Number,
 
     },
     {timestamps: true}
 );
+
+UserSchema.index({phoneNumber: 1}, {unique: true, sparse: true});
+
 
 const collection = "User-Storage";
 const User = mongoose.model("User", UserSchema, collection);
