@@ -1,4 +1,4 @@
-export function getEmailBodyHTML (user, course, numOpen) {
+export function emailNotificationTemplate(user, course, numOpen) {
     return `
     <!DOCTYPE html>
     <html>
