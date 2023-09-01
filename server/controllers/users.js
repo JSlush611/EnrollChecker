@@ -1,6 +1,6 @@
 import User from "../models/User.js";
-import { validateUserUpdateInfo } from "./validation.js";
 import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_SERVER_ERROR } from "../statusCodes.js";
+import { UpdateUserValidation } from '../util/validation/UpdateUserValidation.js';
 
 export const getUser = async (req, res) => {
     try {
@@ -31,9 +31,10 @@ export const updateUser = async (req, res) => {
       const { id } = req.params;
       const { preferredName, phoneNumber } = req.body;
 
-      const validationResult = validateUserUpdateInfo(preferredName, phoneNumber);
-      if (validationResult) {
-          return res.status(HTTP_BAD_REQUEST).json(validationResult);
+      const validationResult = UpdateUserValidation.validate({ preferredName, phoneNumber });
+
+      if (!validationResult.passed) {
+          return res.status(HTTP_BAD_REQUEST).json(validationResult.errors);
       }
 
       await User.findByIdAndUpdate(id, { preferredName, phoneNumber });
