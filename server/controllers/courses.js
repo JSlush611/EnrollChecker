@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
-import { validateSubscription, validateUnsubscription } from "./validation.js";
+import { SubscriptionValidation } from "../util/validation/SubscriptionValidation.js";
 import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_SERVER_ERROR } from "../statusCodes.js";
 
 export const getCourses = async (req, res) => {
@@ -19,7 +19,7 @@ export const subscribeCourse = async (req, res) => {
         const user = await User.findById(userId);
         const course = await Course.findById(courseId);
     
-        const validationResult = validateSubscription(user, course, courseId);
+        const validationResult = SubscriptionValidation.validateSubscription({user, course, courseId});
 
         if (validationResult) {
             return res.status(HTTP_BAD_REQUEST).json(validationResult); 
@@ -45,8 +45,9 @@ export const unsubscribeCouse = async (req, res) => {
   
       const user = await User.findById(userId);
       const course = await Course.findById(courseId);
-  
-      const validationResult = validateUnsubscription(user, course, courseId);
+
+      const validationResult = SubscriptionValidation.validateUnsubscription({user, course, courseId});
+      console.log(validationResult)
       if (validationResult) {
         return res.status(HTTP_BAD_REQUEST).json(validationResult); 
       }

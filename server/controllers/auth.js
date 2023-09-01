@@ -1,14 +1,14 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import User from "../models/User.js";
-import { validateRegistration } from "./validation.js";
 import { HTTP_SUCCESS, HTTP_CREATED, HTTP_BAD_REQUEST, HTTP_SERVER_ERROR } from "../statusCodes.js";
+import { RegistrationValidation } from '../util/validation/RegistrationValidation.js';
 
 export const register = async (req, res) => {
     try {
         const { preferredName, email, password, subscriptions, phoneNumber } = req.body;
 
-        const validationResult = validateRegistration(preferredName, email, password, phoneNumber);
+        const validationResult = RegistrationValidation.validate({preferredName, email, password, phoneNumber});
         if (validationResult) {
             return res.status(HTTP_BAD_REQUEST).json(validationResult); 
           }
