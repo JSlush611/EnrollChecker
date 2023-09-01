@@ -47,7 +47,7 @@ export const unsubscribeCouse = async (req, res) => {
       const course = await Course.findById(courseId);
 
       const validationResult = SubscriptionValidation.validateUnsubscription({user, course, courseId});
-      console.log(validationResult)
+      
       if (validationResult) {
         return res.status(HTTP_BAD_REQUEST).json(validationResult); 
       }
