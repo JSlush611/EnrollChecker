@@ -12,7 +12,7 @@ await mongoose.connect(MONGO_URL, {
   useUnifiedTopology: true,
 });
 
-async function findUsersSubscribedToCourse(course) {
+export async function findUsersSubscribedToCourse(course) {
     const courseId = course._id.toString();
 
     try {
@@ -29,7 +29,7 @@ async function findUsersSubscribedToCourse(course) {
     }
 };
 
-async function findCoursesWithSubscribers() {
+export async function findCoursesWithSubscribers() {
     try {
         const subscribedCourseIds = await Course.distinct("_id", { subscribed: { $gt: 0 } });
         const coursesWithSubs = await Course.find({ _id: { $in: subscribedCourseIds } });
