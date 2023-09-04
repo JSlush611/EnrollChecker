@@ -1,8 +1,8 @@
-import { verifyToken } from "../middleware/auth.js";
 import { pollClasses } from "../controllers/coursePoller.js";
+import { verifyAdminToken } from "../middleware/admin.js";
 
 export function registerPollingRoutes(router) {
-    router.get("/admin/pollcourses", verifyToken, pollClasses)
+    router.get("/admin/pollcourses", verifyAdminToken, pollClasses)
 
     return router;
 }
