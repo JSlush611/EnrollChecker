@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_SERVER_ERROR } from "../statusCodes.js";
+import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_SERVER_ERROR } from "../util/statusCodes.js";
 import { UpdateUserValidation } from '../util/validation/UpdateUserValidation.js';
 
 export const getUser = async (req, res) => {

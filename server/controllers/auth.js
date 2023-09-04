@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import User from "../models/User.js";
-import { HTTP_SUCCESS, HTTP_CREATED, HTTP_BAD_REQUEST, HTTP_SERVER_ERROR } from "../statusCodes.js";
+import { HTTP_SUCCESS, HTTP_CREATED, HTTP_BAD_REQUEST, HTTP_SERVER_ERROR } from "../util/statusCodes.js";
 import { RegistrationValidation } from '../util/validation/RegistrationValidation.js';
 
 export const register = async (req, res) => {

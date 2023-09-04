@@ -1,4 +1,4 @@
-import { HTTP_UNAUTHORIZED } from "../statusCodes.js"
+import { HTTP_UNAUTHORIZED } from "../util/statusCodes.js"
 
 export const verifyAdminToken = async (req, res, next) => {
     try {

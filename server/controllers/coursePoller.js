@@ -1,6 +1,6 @@
 import { singleCoursePoll, multipleCoursePoll } from "../util/coursePolling.js"
 import {findCoursesWithSubscribers} from "../util/subscriptionQueries.js"
-import { HTTP_SUCCESS } from "../statusCodes.js";
+import { HTTP_SUCCESS } from "../util/statusCodes.js";
 
 export const pollClasses = async (req, res) => {
     try {
