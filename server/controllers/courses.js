@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
 import { SubscriptionValidation } from "../util/validation/SubscriptionValidation.js";
-import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_SERVER_ERROR } from "../statusCodes.js";
+import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_SERVER_ERROR } from "../util/statusCodes.js";
 
 export const getCourses = async (req, res) => {
     try {
