@@ -1,4 +1,6 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 
 export async function prepareCoursePayload (course) {
     const { termCode, subjectCode, courseID } = course;
@@ -15,7 +17,7 @@ export async function fetchSingleCourseAvailability (course) {
     const courseDataPayload = await prepareCoursePayload(course);
     
     try {
-        const availabilityResponse = await axios.post('http://localhost:8080', courseDataPayload);
+        const availabilityResponse = await axios.post(process.env.GO_SERVICE_URL + "/", courseDataPayload);
         return availabilityResponse.data;
     } catch (error) {
         throw (error);
@@ -31,7 +33,7 @@ export async function fetchMultipleCoursesAvailability (courses) {
     }    
 
     try {
-        const availabilityResponse = await axios.post('http://localhost:8080/courses/availability', coursesDataPayload);
+        const availabilityResponse = await axios.post(process.env.GO_SERVICE_URL + '/courses/availability', coursesDataPayload);
         return availabilityResponse.data;
 
     } catch (error) {

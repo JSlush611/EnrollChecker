@@ -43,7 +43,7 @@ export async function findCoursesWithSubscribers() {
 
 export async function removeCourseFromUser(userId, courseId) {
     try {
-        const unsubscribeResponse = await axios.get(`http://localhost:3001/courses/unsubscribe/${userId}/${courseId}`, {headers:{"Admin-Key": process.env.ADMIN_KEY}});
+        const unsubscribeResponse = await axios.get(process.env.BACKEND_URL + `/courses/unsubscribe/${userId}/${courseId}`, {headers:{"Admin-Key": process.env.ADMIN_KEY}});
         return unsubscribeResponse.data;
     } catch (err) {
         console.error('Error removing course from user subscriptions:', err);
