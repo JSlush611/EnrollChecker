@@ -9,6 +9,6 @@ export const verifyAdminToken = async (req, res, next) => {
             res.status(HTTP_UNAUTHORIZED).send("Action not permitted!");
         }
     } catch (error) {
-        throw (error);
+        console.error("Error verifying admin token! ", error);
     }
 };

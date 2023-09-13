@@ -1,4 +1,4 @@
-import { singleCoursePoll, multipleCoursePoll } from "../util/coursePolling.js"
+import { multipleCoursePoll } from "../util/coursePolling.js"
 import {findCoursesWithSubscribers} from "../util/subscriptionQueries.js"
 import { HTTP_SUCCESS } from "../util/statusCodes.js";
 
@@ -14,6 +14,6 @@ export const pollClasses = async (req, res) => {
         res.status(HTTP_SUCCESS).send("Multiple course poll completed")
         
     } catch (error) {
-        console.log(error);
+        console.error("Error polling classes! ", error);
     }
 };

@@ -24,7 +24,7 @@ export async function findUsersSubscribedToCourse(course) {
 
         return subscribedUsers;
     } catch (error) {
-      console.error(error);
+      console.error("Server error finding users subscribed to course! ", error);
       return [];
     }
 };
@@ -36,7 +36,7 @@ export async function findCoursesWithSubscribers() {
 
         return coursesWithSubs;
     } catch (error) {
-        console.log(error);
+        console.error("Server error finding courses with subscribers! ", error);
         return [];
     }
 };
@@ -45,8 +45,8 @@ export async function removeCourseFromUser(userId, courseId) {
     try {
         const unsubscribeResponse = await axios.get(process.env.BACKEND_URL + `/courses/unsubscribe/${userId}/${courseId}`, {headers:{"Admin-Key": process.env.ADMIN_KEY}});
         return unsubscribeResponse.data;
-    } catch (err) {
-        console.error('Error removing course from user subscriptions:', err);
+    } catch (error) {
+        console.erroror("Server error removing course from user subscriptions! ", error);
     }
 };
 
