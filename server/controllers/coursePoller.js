@@ -7,7 +7,7 @@ export const pollClasses = async (req, res) => {
         const coursesWithSubscribers = await findCoursesWithSubscribers();
 
         if (!coursesWithSubscribers || coursesWithSubscribers.length === 0) {
-            res.status(HTTP_SUCCESS).send("No courses have subscribers");
+            res.status(HTTP_SUCCESS).send("No courses have subscribers!");
         }
 
         await multipleCoursePoll(coursesWithSubscribers);
