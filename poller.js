@@ -3,9 +3,9 @@ import axios from "axios"
 
 dotenv.config({ path: './server/.env' });
 
-const POLLING_INTERVAL_MS = 10000;
+const POLLING_INTERVAL_MS = 30000;
  
-async function printTimeStamp(courseAvailabilityData) {
+async function logWithTimestamp(courseAvailabilityData) {
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     console.log(time, '- Successful poll:', courseAvailabilityData);
@@ -23,7 +23,7 @@ async function getCoursesAvailability() {
 async function requestCoursePoll() {
     try {
         const courseAvailabilityData = await getCoursesAvailability();
-        printTimeStamp(courseAvailabilityData);
+        logWithTimestamp(courseAvailabilityData);
     } catch (error) {
         console.error('Error polling: :', error.message);
     } 
