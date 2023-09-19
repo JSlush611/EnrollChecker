@@ -20,7 +20,7 @@ export const verifyToken = async (req, res, next) => {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         req.user = verified;
         next();
-    } catch (err) {
-        res.render(HTTP_UNAUTHORIZED, { errorMessage: `Access Denied!` });
+    } catch (error) {
+        console.error("Server error verifying token! ", error);
     }
 }

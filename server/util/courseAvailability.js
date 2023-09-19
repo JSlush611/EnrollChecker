@@ -20,7 +20,7 @@ export async function fetchSingleCourseAvailability (course) {
         const availabilityResponse = await axios.post(process.env.GO_SERVICE_URL + "/", courseDataPayload);
         return availabilityResponse.data;
     } catch (error) {
-        throw (error);
+        console.error("Error fetching single courses availability! ", error);
     }
 };
 
@@ -37,7 +37,7 @@ export async function fetchMultipleCoursesAvailability (courses) {
         return availabilityResponse.data;
 
     } catch (error) {
-        throw (error);
+        console.error("Error fetching multiple courses availability! ", error);
     }
 };
 
